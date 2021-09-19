@@ -11,11 +11,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "email-validator": "^2.0.4",
     "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.1.10",
-    "mongoose": "^5.3.16",
+    "mongoose": "^6.0.6",
     "nodemon": "^2.0.12",
     "validator": "^10.9.0"
   },
-  "description": ""
+  "description": "",
+  "devDependencies": {
+    "@types/mongoose": "^5.11.97"
+  }
 }
