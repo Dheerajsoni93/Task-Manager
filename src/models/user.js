@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema({
             trim: true,
             lowercase: true,
             validate(value) {
-                if(!validator.isEmail(value)){
+                if(!validator.isEmail(value)) {
                     throw new Error('Email is invalid.')
                 }
             }
@@ -42,8 +42,10 @@ const userSchema = new mongoose.Schema({
         } 
     },
     tokens: [{
-        token: String,
-        required: true,
+        token: {
+            type: String,
+            required: true
+        }
     }]
 })
 
@@ -51,13 +53,13 @@ userSchema.methods.generateAuthToken = async function () {
     const user = this
     const token = jwt.sign({ _id: user._id.toString() }, 'thisismynewproject')
     
-    user.token = user.tokens.concat({ token })
+    user.tokens = user.tokens.concat({ token })
     await user.save()    
     
     return token
 }
 
-userSchema.statics.findByCredentials = async (email,password) => {
+userSchema.statics.findByCredentials = async (email, password) => {
     const user = await User.findOne({ email: email })
 
     if(!user){
@@ -69,17 +71,15 @@ userSchema.statics.findByCredentials = async (email,password) => {
     if(!isMatch) {
         throw new Error('Unable to login!')
     }
-
     return user
 }
 
 userSchema.pre('save', async function (next) {
     const user = this
 
-    if(user.idModified('password')) {
+    if(user.isModified('password')) {
         user.password = await bcrypt.hash(user.password, 8)
     }
-    
     next()
 })
 

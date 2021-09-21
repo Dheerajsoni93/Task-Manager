@@ -1,11 +1,24 @@
 const express = require('express')
 require('./db/mongoose.js')
+const jwt = require('jsonwebtoken')
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
 
 
 const app = express()
 const port = process.env.PORT || 3000
+
+// app.use((req, res, next) => {
+//     if(req.method === 'GET'){
+//         res.send('Get requests are disabled')
+//     } else {
+//         next()
+//     }
+// })
+
+// app.use((req, res, next) => {
+//     res.status(503).send('Site is currently down. try again after sometime')
+// })
 
 app.use(express.json())
 app.use(userRouter)
@@ -15,13 +28,11 @@ app.listen(port, () => {
     console.log('Server is up on port')
 })
 
-const jwt = require('jsonwebtoken')
-
 const myFunction = async () => {
-    jwt.sign({ _id: 'abc124'}, 'this is my new project', {expiresIn: '7days'})
+    const token = jwt.sign({ _id: 'abc124'}, 'thisismynewproject', {expiresIn: '7days'})
     console.log(token)
 
-    const data = jwt.verify(token, 'this is my new project')
+    const data = jwt.verify(token, 'thisismynewproject')
     console.log(data)
 }
 
