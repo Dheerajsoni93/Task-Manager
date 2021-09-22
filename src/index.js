@@ -25,15 +25,20 @@ app.use(userRouter)
 app.use(taskRouter)
 
 app.listen(port, () => {
-    console.log('Server is up on port')
+    console.log('Server is up on port ' + port)
 })
 
-const myFunction = async () => {
-    const token = jwt.sign({ _id: 'abc124'}, 'thisismynewproject', {expiresIn: '7days'})
-    console.log(token)
+const Task = require('./models/task')
+const User = require('./models/user')
 
-    const data = jwt.verify(token, 'thisismynewproject')
-    console.log(data)
-}
+// const main = async () => {
+//     // const task = await Task.findById('614b342be7971a5738176240')
+//     // await task.populate('owner').execPopulate()
+//     // console.log(task.owner)
 
-myFunction()
+//     const user = await User.findById('614b33aae7971a573817623d')
+//     await user.populate('tasks').execPopulate()
+//     console.log(user.tasks)
+// }
+
+// main()
